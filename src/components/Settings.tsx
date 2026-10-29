@@ -7,11 +7,13 @@ import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import type { StrumStyle } from '@/lib/audio'
+import { usePwa } from '@/lib/pwa'
 import { useStore } from '@/lib/store'
 
 export function SettingsSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
   const { settings: s, setSettings, resetProgress } = useStore()
   const [confirm, setConfirm] = useState(false)
+  const pwa = usePwa()
   useEffect(() => {
     if (!confirm) return
     const t = setTimeout(() => setConfirm(false), 4000)
@@ -43,6 +45,25 @@ export function SettingsSheet({ open, onOpenChange }: { open: boolean; onOpenCha
           <Field label="Volume" value={s.volume} onChange={(v) => setSettings({ volume: v })} />
           <Field label="Mic sensitivity" hint="Raise if quiet strums are missed. Lower if room noise triggers chords." left="Loud playing" right="Picks up quiet" value={s.sensitivity} onChange={(v) => setSettings({ sensitivity: v })} />
           <Field label="Practice strictness" hint="How closely a chord must match before it counts." left="Forgiving" right="Strict" value={s.strictness} onChange={(v) => setSettings({ strictness: v })} />
+
+          <div className="border-t border-rule pt-6">
+            <p className="text-base font-medium">App</p>
+            <p className="mt-1 text-sm text-ink-2">
+              {pwa.state === 'installed'
+                ? 'Installed on this device.'
+                : pwa.state === 'ready'
+                  ? 'Install Chordbox to open it from your home screen or dock, like any other app.'
+                  : pwa.state === 'ios'
+                    ? 'To install: tap the Share button in Safari, then Add to Home Screen.'
+                    : 'To install, use your browser’s menu (Install app or Add to Home Screen).'}
+            </p>
+            {pwa.state === 'ready' && (
+              <Button className="mt-3" onClick={pwa.install}>
+                Install app
+              </Button>
+            )}
+            <p className="mt-3 text-sm text-ink-2">{pwa.offline ? 'Everything is saved for offline use: chords, sounds, listening, practice and the tuner.' : 'Offline use gets set up after the first full load over the network.'}</p>
+          </div>
 
           <div className="border-t border-rule pt-6">
             <p className="text-base font-medium">Reset progress</p>

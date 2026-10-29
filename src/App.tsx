@@ -1,4 +1,4 @@
-import { Ear, Gauge, LayoutGrid, SlidersHorizontal, Target } from 'lucide-react'
+import { Download, Ear, Gauge, LayoutGrid, SlidersHorizontal, Target } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/sonner'
@@ -8,6 +8,7 @@ import { Practice } from '@/components/Practice'
 import { SettingsSheet } from '@/components/Settings'
 import { Tuner } from '@/components/Tuner'
 import { useRoute } from '@/lib/hooks'
+import { usePwa } from '@/lib/pwa'
 import { useStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 
@@ -34,6 +35,7 @@ export default function App() {
   const page = NAV.some((n) => n.id === route[0]) ? route[0] : 'chords'
   const { streak } = useStore()
   const [settings, setSettings] = useState(false)
+  const pwa = usePwa()
 
   return (
     <div className="min-h-dvh">
@@ -63,6 +65,11 @@ export default function App() {
               <span className="rounded-full border border-rule bg-card px-3 py-1 text-sm font-medium" title="Days in a row with practice">
                 {streak}-day streak
               </span>
+            )}
+            {pwa.state === 'ready' && (
+              <Button variant="outline" className="h-11 md:h-9" onClick={pwa.install}>
+                <Download /> Install
+              </Button>
             )}
             <Button variant="ghost" size="icon-lg" aria-label="Settings" onClick={() => setSettings(true)}>
               <SlidersHorizontal />
