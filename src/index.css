@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* String Envelope: black ink on cool envelope stock. Color belongs to the six strings only. */
+:root {
+  --paper: #f1f2ee;
+  --card: #ffffff;
+  --ink: #161616;
+  --ink-2: #51524d;
+  --rule: #d4d5ce;
+  --hit: #1d7340;
+  --miss: #bf2a1f;
+
+  /* low E → high E, as on colour-coded string ball ends */
+  --string-0: #dc3a2e;
+  --string-1: #e8851a;
+  --string-2: #d9a900;
+  --string-3: #2b9653;
+  --string-4: #2569cc;
+  --string-5: #7a44c6;
+
+  --radius: 0.5rem;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card-foreground: var(--ink);
+  --popover: var(--card);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: #e4e5df;
+  --secondary-foreground: var(--ink);
+  --muted: #e7e8e2;
+  --muted-foreground: var(--ink-2);
+  --accent: #e4e5df;
+  --accent-foreground: var(--ink);
+  --destructive: var(--miss);
+  --border: var(--rule);
+  --input: #c9cac3;
+  --ring: var(--ink);
+
+  --shadow-envelope: 0 1px 1px rgb(22 22 22 / 0.04), 0 6px 16px -8px rgb(22 22 22 / 0.18);
+  --shadow-lift: 0 2px 2px rgb(22 22 22 / 0.05), 0 14px 28px -12px rgb(22 22 22 / 0.28);
+}
+
+@theme inline {
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Barlow Condensed", "Barlow", ui-sans-serif, sans-serif;
+  --text-display: 5.5rem;
+  --text-display-lg: 7rem;
+  --text-chord: 2rem;
+
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-rule: var(--rule);
+  --color-hit: var(--hit);
+  --color-miss: var(--miss);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --shadow-envelope: var(--shadow-envelope);
+  --shadow-lift: var(--shadow-lift);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "tnum" 1;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+}
+
+/* Envelope tear line between a card's label and its contents. */
+.tear {
+  position: relative;
+  margin-inline: 0;
+  padding-inline: 14px;
+  background-clip: content-box;
+}
+.tear::before,
+.tear::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  translate: 0 -50%;
+}
+.tear::before { left: -8px; }
+.tear::after { right: -8px; }
+.perf {
+  height: 3px;
+  background-image: radial-gradient(circle, var(--ink-2) 1.1px, transparent 1.4px);
+  background-size: 6px 3px;
+  background-repeat: repeat-x;
+}
+
+/* The one authored motion: strings shimmer in strum order when a chord sounds. */
+@keyframes string-ring {
+  0% { transform: translateX(0); }
+  8% { transform: translateX(1.6px); }
+  16% { transform: translateX(-1.4px); }
+  26% { transform: translateX(1.1px); }
+  38% { transform: translateX(-0.8px); }
+  52% { transform: translateX(0.5px); }
+  70% { transform: translateX(-0.25px); }
+  100% { transform: translateX(0); }
+}
+.string-ring {
+  transform-box: fill-box;
+  animation: string-ring 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  padding: 1px 5px 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@keyframes stamp-in {
+  from { transform: scale(1.12) rotate(-3deg); opacity: 0; }
+  to { transform: scale(1) rotate(-3deg); opacity: 1; }
+}
+.stamp-in {
+  animation: stamp-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .string-ring, .stamp-in {
+    animation: none;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
