@@ -24,11 +24,12 @@ const DEFAULTS = {
   bests: {} as Record<string, number>, // progression id → best % clean changes
 }
 type Data = typeof DEFAULTS
-const KEY = 'chordbox:v1'
+const KEY = 'chordhub:v1'
+const OLD_KEY = 'chordbox:v1' // the app's earlier name; read once so nobody loses their progress
 
 function load(): Data {
   try {
-    const raw = localStorage.getItem(KEY)
+    const raw = localStorage.getItem(KEY) ?? localStorage.getItem(OLD_KEY)
     if (!raw) return DEFAULTS
     const d = JSON.parse(raw) as Partial<Data>
     return { ...DEFAULTS, ...d, settings: { ...DEFAULTS.settings, ...d.settings } }

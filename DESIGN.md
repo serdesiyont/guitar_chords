@@ -1,5 +1,5 @@
 ---
-name: Chordbox
+name: Chordhub
 description: Find a chord, hear it, play it, and get heard. Black ink on cool envelope stock, colour only on the strings.
 colors:
   envelope-stock: "#f1f2ee"
@@ -118,13 +118,13 @@ components:
     height: "44px"
 ---
 
-# Design System: Chordbox
+# Design System: Chordhub
 
 ## Overview
 
 **Creative North Star: "The String Envelope"**
 
-Chordbox is printed like the packaging a set of guitar strings comes in: black ink on cool, slightly green-grey envelope stock, each chord sealed in its own white envelope with a perforated tear line between the label and the contents. The interface is ink and paper. The only colour in the whole system is on the strings themselves, in the six ball-end colours a colour-coded string set uses, drawn at the real weights of a 12-53 acoustic set so the low E reads heavy and the high E hairline.
+Chordhub is printed like the packaging a set of guitar strings comes in: black ink on cool, slightly green-grey envelope stock, each chord sealed in its own white envelope with a perforated tear line between the label and the contents. The interface is ink and paper. The only colour in the whole system is on the strings themselves, in the six ball-end colours a colour-coded string set uses, drawn at the real weights of a 12-53 acoustic set so the low E reads heavy and the high E hairline.
 
 Density is generous and glanceable, because the player has a guitar in their lap and at most one hand free. Chord names and gauge-style numerals are set huge in Barlow Condensed, the way a string pack prints its gauges; everything else is quiet Barlow at reading size. Motion is nearly absent: one authored movement, the strings shimmering in strum order when a chord sounds, plus an ink stamp landing when a chord is played clean.
 

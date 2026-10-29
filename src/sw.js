@@ -1,9 +1,9 @@
-// Chordbox service worker. Built by the `serviceWorker` plugin in vite.config.ts, which
+// Chordhub service worker. Built by the `serviceWorker` plugin in vite.config.ts, which
 // replaces the two placeholders below. The whole app (code, fonts, chord data, icons)
 // is precached on first visit, so every screen works offline afterwards.
 const VERSION = __VERSION__
 const PRECACHE = __PRECACHE__
-const CACHE = `chordbox-${VERSION}`
+const CACHE = `chordhub-${VERSION}`
 const INDEX = new URL('index.html', self.registration.scope).href
 // Precached files are content-hashed, so the URL alone identifies them. ignoreVary matters:
 // hosts send `Vary: Origin`, and module/CSS requests carry an Origin header the precache didn't.
@@ -18,7 +18,7 @@ self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((k) => k.startsWith('chordbox-') && k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.filter((k) => /^chord(hub|box)-/.test(k) && k !== CACHE).map((k) => caches.delete(k))))
       .then(() => self.clients.claim()),
   )
 })

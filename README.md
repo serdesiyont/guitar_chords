@@ -1,4 +1,4 @@
-# Chordbox
+# Chordhub
 
 Guitar chord library for 6-string acoustic (standard tuning) that plays every chord, listens through the mic to name what you strum, drills single chords and progressions on a metronome, and tunes your guitar. No backend; everything is saved in `localStorage`.
 
@@ -18,6 +18,6 @@ The mic needs a secure context: `localhost` or HTTPS.
 
 ## Install & offline
 
-Chordbox is a PWA. On the first visit the service worker (`src/sw.js`, built by the `serviceWorker` plugin in `vite.config.ts`) precaches every built file: code, fonts, chord data and icons. From then on the whole app works with no network: library, sound, listening, practice and tuner. Install comes from the header button (when the browser offers it), from Settings → App, or on iOS from Share → Add to Home Screen.
+Chordhub is a PWA. On the first visit the service worker (`src/sw.js`, built by the `serviceWorker` plugin in `vite.config.ts`) precaches every built file: code, fonts, chord data and icons. From then on the whole app works with no network: library, sound, listening, practice and tuner. Install comes from the header button (when the browser offers it), from Settings → App, or on iOS from Share → Add to Home Screen.
 
 When a new build is deployed, the app picks it up the next time it's opened or brought to the front, and offers a Reload. Service workers need HTTPS (or `localhost`), and dev mode (`dev`) doesn't register one; use `build` + `preview` to try offline.

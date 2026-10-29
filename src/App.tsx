@@ -43,7 +43,7 @@ export default function App() {
         <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4 md:h-16">
           <a href="#/chords" className="flex items-center gap-2.5 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring">
             <Mark />
-            <span className="font-display text-2xl font-bold tracking-tight">Chordbox</span>
+            <span className="font-display text-2xl font-bold tracking-tight">Chordhub</span>
           </a>
           <nav aria-label="Main" className="hidden h-full items-stretch gap-1 md:flex">
             {NAV.map((n) => (

@@ -10,7 +10,7 @@ import { defineConfig, type Plugin } from 'vite'
 function serviceWorker(): Plugin {
   let publicDir = ''
   return {
-    name: 'chordbox-sw',
+    name: 'chordhub-sw',
     apply: 'build',
     enforce: 'post',
     configResolved: (c) => void (publicDir = c.publicDir),

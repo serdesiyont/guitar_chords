@@ -34,7 +34,7 @@ export function registerServiceWorker() {
           offlineReady = true
           emit()
           if (firstInstall) toast('Ready to use offline')
-          else toast('Chordbox was updated', { duration: Infinity, action: { label: 'Reload', onClick: () => location.reload() } })
+          else toast('Chordhub was updated', { duration: Infinity, action: { label: 'Reload', onClick: () => location.reload() } })
         })
       })
       // An installed app rarely navigates, so look for a new version whenever it comes back to the foreground.

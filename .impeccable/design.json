@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-10-28T19:11:39.492Z",
-  "title": "Design System: Chordbox",
+  "title": "Design System: Chordhub",
   "extensions": {
     "colorMeta": {
       "envelope-stock": {
@@ -391,7 +391,7 @@
   ],
   "narrative": {
     "northStar": "The String Envelope",
-    "overview": "Chordbox is printed like the packaging a set of guitar strings comes in: black ink on cool, slightly green-grey envelope stock, each chord sealed in its own white envelope with a perforated tear line between the label and the contents. The interface is ink and paper. The only colour in the whole system is on the strings themselves, in the six ball-end colours a colour-coded string set uses, drawn at the real weights of a 12-53 acoustic set so the low E reads heavy and the high E hairline.\n\nDensity is generous and glanceable, because the player has a guitar in their lap and at most one hand free. Chord names and gauge-style numerals are set huge in Barlow Condensed, the way a string pack prints its gauges; everything else is quiet Barlow at reading size. Motion is nearly absent: one authored movement, the strings shimmering in strum order when a chord sounds, plus an ink stamp landing when a chord is played clean.\n\nThe system is light-only by decision. It refuses the dark neon fretboard that guitar apps default to, and it refuses the stock white card grid: cards here are envelopes, with tear lines, stamps and printed fret notation, not generic tiles.",
+    "overview": "Chordhub is printed like the packaging a set of guitar strings comes in: black ink on cool, slightly green-grey envelope stock, each chord sealed in its own white envelope with a perforated tear line between the label and the contents. The interface is ink and paper. The only colour in the whole system is on the strings themselves, in the six ball-end colours a colour-coded string set uses, drawn at the real weights of a 12-53 acoustic set so the low E reads heavy and the high E hairline.\n\nDensity is generous and glanceable, because the player has a guitar in their lap and at most one hand free. Chord names and gauge-style numerals are set huge in Barlow Condensed, the way a string pack prints its gauges; everything else is quiet Barlow at reading size. Motion is nearly absent: one authored movement, the strings shimmering in strum order when a chord sounds, plus an ink stamp landing when a chord is played clean.\n\nThe system is light-only by decision. It refuses the dark neon fretboard that guitar apps default to, and it refuses the stock white card grid: cards here are envelopes, with tear lines, stamps and printed fret notation, not generic tiles.",
     "keyCharacteristics": [
       "Ink on envelope stock; white envelope cards with a perforated tear line and half-circle notches.",
       "Colour lives only on strings, in fixed ball-end order, at real gauge weights.",

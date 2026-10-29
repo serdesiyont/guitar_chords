@@ -1,3 +1,4 @@
+import { barsOf } from '@/lib/barres'
 import { STRINGS, type Voicing } from '@/lib/chords'
 import { cn } from '@/lib/utils'
 
@@ -17,7 +18,8 @@ type Props = {
 }
 
 export function ChordDiagram({ voicing, name, leftHanded, ring, showNames = true, className }: Props) {
-  const { frets, fingers, baseFret, barres } = voicing
+  const { frets, fingers, baseFret } = voicing
+  const bars = barsOf(frets, fingers)
   const x = (s: number) => X0 + (leftHanded ? 5 - s : s) * DX
   const yMid = (f: number) => Y0 + (f - 0.5) * DY
   const yEnd = Y0 + FRETS * DY
@@ -66,22 +68,20 @@ export function ChordDiagram({ voicing, name, leftHanded, ring, showNames = true
         ) : null,
       )}
 
-      {/* barres */}
-      {barres.map((b) => {
-        const on = frets.map((f, s) => (f === b ? s : -1)).filter((s) => s >= 0)
-        if (on.length < 2) return null
-        const a = x(Math.min(...on)), z = x(Math.max(...on))
-        return <rect key={b} x={Math.min(a, z) - 7.5} y={yMid(b) - 7.5} width={Math.abs(z - a) + 15} height={15} rx={7.5} className="fill-ink" />
+      {/* barres: one bar per flat finger */}
+      {bars.map((b) => {
+        const a = x(b.strings[0]), z = x(b.strings[b.strings.length - 1])
+        return <rect key={`${b.fret}-${b.finger}-${b.strings[0]}`} x={Math.min(a, z) - 7.5} y={yMid(b.fret) - 7.5} width={Math.abs(z - a) + 15} height={15} rx={7.5} className="fill-ink" />
       })}
 
-      {/* fingers */}
+      {/* fingers: a dot per fretted string, except strings under a bar, which carry the number once */}
       {frets.map((f, s) => {
         if (f <= 0) return null
-        const onBarre = barres.includes(f) && frets.filter((g) => g === f).length > 1 && fingers[s] === fingers[frets.indexOf(f)]
+        const bar = bars.find((b) => b.strings.includes(s))
         return (
           <g key={s}>
-            {!onBarre && <circle cx={x(s)} cy={yMid(f)} r={7.5} className="fill-ink" />}
-            {fingers[s] > 0 && (!onBarre || s === frets.indexOf(f)) && (
+            {!bar && <circle cx={x(s)} cy={yMid(f)} r={7.5} className="fill-ink" />}
+            {fingers[s] > 0 && (!bar || s === bar.strings[0]) && (
               <text x={x(s)} y={yMid(f) + 3.6} textAnchor="middle" className="fill-paper font-display text-[11px] font-bold">
                 {fingers[s]}
               </text>

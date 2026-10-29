@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Chordbox",
-  "short_name": "Chordbox",
+  "name": "Chordhub",
+  "short_name": "Chordhub",
   "description": "Guitar chord library with sound, live chord detection, practice and a tuner. Works offline.",
   "start_url": "./#/chords",
   "scope": "./",

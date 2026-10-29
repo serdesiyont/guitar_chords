@@ -52,7 +52,7 @@ export function SettingsSheet({ open, onOpenChange }: { open: boolean; onOpenCha
               {pwa.state === 'installed'
                 ? 'Installed on this device.'
                 : pwa.state === 'ready'
-                  ? 'Install Chordbox to open it from your home screen or dock, like any other app.'
+                  ? 'Install Chordhub to open it from your home screen or dock, like any other app.'
                   : pwa.state === 'ios'
                     ? 'To install: tap the Share button in Safari, then Add to Home Screen.'
                     : 'To install, use your browser’s menu (Install app or Add to Home Screen).'}
