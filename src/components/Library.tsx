@@ -11,9 +11,9 @@ import { ChordDiagram } from './ChordDiagram'
 import { ChordName } from './ChordName'
 import { ChordSheet } from './ChordSheet'
 
-const chip = 'h-11 md:h-9 shrink-0 rounded-full border px-3.5 text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring'
-const chipOn = 'border-ink bg-ink text-paper'
-const chipOff = 'border-rule bg-card text-ink hover:border-ink-2'
+export const chip = 'h-11 md:h-9 shrink-0 rounded-full border px-3.5 text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring'
+export const chipOn = 'border-ink bg-ink text-paper'
+export const chipOff = 'border-rule bg-card text-ink hover:border-ink-2'
 
 export function Library({ openId }: { openId: string | null }) {
   const { favorites } = useStore()
