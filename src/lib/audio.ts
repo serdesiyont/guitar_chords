@@ -56,10 +56,10 @@ function pluck(midi: number) {
 export type StrumStyle = 'strum' | 'arpeggio'
 
 /** Play MIDI notes low→high. Returns the per-note start offsets (s) for syncing visuals. */
-export function playNotes(midis: number[], style: StrumStyle = 'strum') {
+export function playNotes(midis: number[], style: StrumStyle = 'strum', at?: number) {
   const c = audio()
   const gap = style === 'strum' ? 0.028 : 0.16
-  const t0 = c.currentTime + 0.02
+  const t0 = at ?? c.currentTime + 0.02
   return midis.map((m, i) => {
     const { buf, rate } = pluck(m)
     const src = c.createBufferSource()
@@ -76,21 +76,22 @@ export function playNotes(midis: number[], style: StrumStyle = 'strum') {
   })
 }
 
-function click(time: number, accent: boolean) {
+/** soft = an off-beat subdivision tick, quieter than the beat. */
+export function click(time: number, accent: boolean, soft = false) {
   const c = audio()
   const o = c.createOscillator()
   const g = c.createGain()
   o.frequency.value = accent ? 1760 : 1180
   g.gain.setValueAtTime(0.0001, time)
-  g.gain.exponentialRampToValueAtTime(accent ? 0.5 : 0.3, time + 0.002)
+  g.gain.exponentialRampToValueAtTime(accent ? 0.5 : soft ? 0.12 : 0.3, time + 0.002)
   g.gain.exponentialRampToValueAtTime(0.0001, time + 0.05)
   o.connect(g).connect(master!)
   o.start(time)
   o.stop(time + 0.06)
 }
 
-/** Audio-clock metronome with lookahead; onBeat fires (roughly) when each beat sounds. */
-export function startMetronome(bpm: number, beatsPerBar: number, onBeat: (beat: number) => void, clickOn = true) {
+/** Audio-clock metronome with lookahead; onBeat fires (roughly) when each beat sounds, onSchedule fires ahead with its exact audio time. */
+export function startMetronome(bpm: number, beatsPerBar: number, onBeat: (beat: number) => void, clickOn = true, onSchedule?: (beat: number, time: number) => void) {
   const c = audio()
   let next = c.currentTime + 0.15
   let beat = 0
@@ -99,6 +100,7 @@ export function startMetronome(bpm: number, beatsPerBar: number, onBeat: (beat: 
   const tick = () => {
     while (next < c.currentTime + 0.12) {
       if (clickOn) click(next, beat % beatsPerBar === 0)
+      onSchedule?.(beat, next)
       const b = beat
       const id = window.setTimeout(() => {
         timers.delete(id)

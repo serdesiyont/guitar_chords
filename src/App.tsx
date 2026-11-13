@@ -1,4 +1,4 @@
-import { Download, Ear, Gauge, LayoutGrid, Music, SlidersHorizontal, Target } from 'lucide-react'
+import { Download, Ear, Gauge, Hand, LayoutGrid, Music, SlidersHorizontal, Target } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/sonner'
@@ -6,6 +6,7 @@ import { Library } from '@/components/Library'
 import { Listen } from '@/components/Listen'
 import { Practice } from '@/components/Practice'
 import { Scales } from '@/components/Scales'
+import { Strum } from '@/components/Strum'
 import { SettingsSheet } from '@/components/Settings'
 import { Tuner } from '@/components/Tuner'
 import { useRoute } from '@/lib/hooks'
@@ -16,6 +17,7 @@ import { cn } from '@/lib/utils'
 const NAV = [
   { id: 'chords', label: 'Chords', icon: LayoutGrid },
   { id: 'scales', label: 'Scales', icon: Music },
+  { id: 'strum', label: 'Strum', icon: Hand },
   { id: 'listen', label: 'Listen', icon: Ear },
   { id: 'practice', label: 'Practice', icon: Target },
   { id: 'tuner', label: 'Tuner', icon: Gauge },
@@ -83,13 +85,14 @@ export default function App() {
       <main className="mx-auto max-w-6xl px-4 pt-6 pb-28 md:pt-10 md:pb-16">
         {page === 'chords' && <Library openId={route[1] ?? null} />}
         {page === 'scales' && <Scales />}
+        {page === 'strum' && <Strum />}
         {page === 'listen' && <Listen />}
         {page === 'practice' && <Practice route={route} />}
         {page === 'tuner' && <Tuner />}
       </main>
 
       <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-30 border-t border-rule bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-sm md:hidden">
-        <div className="grid grid-cols-5">
+        <div className="grid grid-cols-6">
           {NAV.map((n) => (
             <a
               key={n.id}

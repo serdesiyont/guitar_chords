@@ -1,7 +1,8 @@
-import { Play } from 'lucide-react'
+import { Play, Target } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { playNotes, setVolume } from '@/lib/audio'
+import { go } from '@/lib/hooks'
 import { STRINGS, TUNING } from '@/lib/chords'
 import { NOTE_NAMES } from '@/lib/detect'
 import { SCALES, scaleFrets, scaleMidi } from '@/lib/scales'
@@ -70,9 +71,14 @@ export function Scales() {
               <span className="ml-3 font-medium tracking-[0.08em]">{scale.degrees}</span>
             </p>
           </div>
-          <Button size="lg" className="h-12 text-base" onClick={play}>
-            <Play /> Play scale
-          </Button>
+          <div className="flex gap-2">
+            <Button size="lg" variant="outline" className="h-12 text-base" onClick={() => go('practice', 'scale', id, NOTE_NAMES[root])}>
+              <Target /> Practice
+            </Button>
+            <Button size="lg" className="h-12 text-base" onClick={play}>
+              <Play /> Play scale
+            </Button>
+          </div>
         </div>
         {scale.note && <p className="px-4 pt-2 text-sm text-ink-2 sm:px-5">{scale.note}</p>}
         <div className="perf tear mt-3" />

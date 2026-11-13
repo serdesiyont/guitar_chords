@@ -101,3 +101,34 @@ export function usePitch(analyser: AnalyserNode | null, sensitivity: number) {
   }, [analyser, sensitivity])
   return pitch
 }
+
+// ponytail: level-jump onset detector, tuned by ear. Swap for spectral flux if soft upstrokes go unheard.
+const RISE = 1.4 // level must jump this far above its decaying peak to count as a new strum
+const REFRACTORY = 0.07 // s; one strum sweeps six strings over ~30-50 ms
+
+/** Calls onOnset with the audio-clock time of each new strum or pluck. */
+export function useOnsets(analyser: AnalyserNode | null, sensitivity: number, onOnset: (time: number) => void) {
+  const cb = useRef(onOnset)
+  useEffect(() => {
+    cb.current = onOnset
+  })
+  useEffect(() => {
+    if (!analyser) return
+    const buf = new Float32Array(analyser.fftSize)
+    const N = 512 // only the newest samples; the analyser buffer holds the last fftSize
+    const gate = gateFor(sensitivity)
+    const sr = analyser.context.sampleRate
+    let peak = 0, last = -1
+    const id = window.setInterval(() => {
+      analyser.getFloatTimeDomainData(buf)
+      const r = rms(buf.subarray(buf.length - N))
+      const t = analyser.context.currentTime - N / 2 / sr
+      if (r > gate && r > peak * RISE && t - last > REFRACTORY) {
+        last = t
+        cb.current(t)
+      }
+      peak = Math.max(r, peak * 0.8)
+    }, 10)
+    return () => clearInterval(id)
+  }, [analyser, sensitivity])
+}

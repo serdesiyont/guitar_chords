@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils'
 import { ChordDiagram } from './ChordDiagram'
 import { ChordName } from './ChordName'
 import { MicGate } from './MicGate'
+import { ScaleDrill, StrumDrill } from './Drills'
 
 type Mic = ReturnType<typeof useMic>
 const HOLD = 7 // listener frames (~0.55 s) a chord must ring to count
@@ -27,22 +28,36 @@ const pickOther = (ids: string[], not?: string) => {
   return pool[Math.floor(Math.random() * pool.length)]
 }
 
+const BLURB = {
+  chord: 'Play the chord shown. Hold it until it’s stamped.',
+  progression: 'Change chords in time. Every change is graded by ear.',
+  scale: 'Play the scale up and back down. Each note is checked by ear.',
+  strum: 'Strum a pattern on the beat. Every strum is timed by ear.',
+}
+
 export function Practice({ route }: { route: string[] }) {
-  const mode = route[1] === 'progression' ? 'progression' : 'chord'
+  const mode = (['progression', 'scale', 'strum'] as const).find((m) => m === route[1]) ?? 'chord'
   const mic = useMic()
   return (
     <section aria-labelledby="practice-title">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 id="practice-title" className="font-display text-4xl font-bold sm:text-5xl">Practice</h1>
-          <p className="mt-1 text-ink-2">{mode === 'chord' ? 'Play the chord shown. Hold it until it’s stamped.' : 'Change chords in time. Every change is graded by ear.'}</p>
+          <p className="mt-1 text-ink-2">{BLURB[mode]}</p>
         </div>
         <ToggleGroup type="single" variant="outline" value={mode} onValueChange={(v) => v && go('practice', v)} aria-label="Practice mode">
           <ToggleGroupItem value="chord" className="h-11 px-4 md:h-10">One chord</ToggleGroupItem>
           <ToggleGroupItem value="progression" className="h-11 px-4 md:h-10">Progression</ToggleGroupItem>
+          <ToggleGroupItem value="scale" className="h-11 px-4 md:h-10">Scale</ToggleGroupItem>
+          <ToggleGroupItem value="strum" className="h-11 px-4 md:h-10">Strum</ToggleGroupItem>
         </ToggleGroup>
       </div>
-      <div className="mt-6">{mode === 'chord' ? <ChordDrill initial={route[2]} mic={mic} /> : <Progressions initial={route[2]} mic={mic} />}</div>
+      <div className="mt-6">
+        {mode === 'chord' && <ChordDrill initial={route[2]} mic={mic} />}
+        {mode === 'progression' && <Progressions initial={route[2]} mic={mic} />}
+        {mode === 'scale' && <ScaleDrill initial={route[2]} initialRoot={route[3]} mic={mic} />}
+        {mode === 'strum' && <StrumDrill initial={route[2]} mic={mic} />}
+      </div>
     </section>
   )
 }
